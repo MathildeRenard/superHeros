@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <h1>Ajouter un heros</h1>
+    <form method="post" th:action="@{/SuperHeros/submitForm}" th:object="${heros}">
+        <div>
+            <label>
+                name :
+            </label>
+            <input th:field="*{name}"></input>
+        </div>
+        <div>
+            <label>
+                phone :
+            </label>
+            <input th:field="*{phone}"></input>
+        </div>
+        <div>
+            <label>
+                location :
+            </label>
+            <input th:field="*{location}"></input>
+        </div>
+
+        <p>
+            <label>Incidents:
+
+                <input type="checkbox" name="incidents"
+                       th:each="incident : ${incidents}"
+                       th:text="${incident.name}"
+                       th:value="${incident.id}"
+                     th:field="*{incidents}"
+                />
+            </label>
+        </p>
+
+        <div>
+            <button type="submit">Valider</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello from spring application</title>
+
+</head>
+<body>
+<div>
+    <h1>Liste des todos</h1>
+    <div th:each="incident : ${incidents}">
+        <span th:text="${incident.getName()}"></span>
+
+    </div>
+</div>
+</body>
+</html>
