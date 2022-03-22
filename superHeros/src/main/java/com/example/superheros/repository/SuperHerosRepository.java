@@ -8,7 +8,5 @@ import java.util.List;
 
 public interface SuperHerosRepository extends CrudRepository<SuperHeros, Integer>  {
 
-    //chercher les héros en fonction de leurs incident(id)
-    List<SuperHeros> findByIncidentsId(int id);
 
 }

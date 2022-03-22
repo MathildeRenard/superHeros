@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.superheros.model.Incident;
 import com.example.superheros.repository.IncidentRepository;
-//defining the business logic
+
 @Service
 public class IncidentService {
 

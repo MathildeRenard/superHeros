@@ -34,8 +34,8 @@ public class SuperHerosController {
         @GetMapping("/save")
         public String herosForm(Model model) {
             //envoyer au formulaire l'objet heros initialisé, vide
-            model.addAttribute("heros", new SuperHeros(){});
-            //Envoyer au formualire la liste des incidents
+            model.addAttribute("heros", new SuperHeros());
+            //Envoyer au formulaire la liste des incidents
             List<Incident> incidents = incidentService.getAllIncidents();
             model.addAttribute("incidents", incidents);
             return "superHeros/save";

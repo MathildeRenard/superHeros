@@ -25,9 +25,9 @@ public class IncidentController {
         private String getAllIncidents(Model model)
         {
                 List<Incident> incidents = incidentService.getAllIncidents();
-                List<SuperHeros> superHeros = superHerosService.getAllSuperHeros();
+                List<SuperHeros> heros = superHerosService.getAllSuperHeros();
                 model.addAttribute("incidents", incidents);
-                model.addAttribute("heros", superHeros);
+                model.addAttribute("heros", heros);
                 return  "incident/index";
         }
 

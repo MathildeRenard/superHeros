@@ -24,19 +24,13 @@ public class SuperHerosService {
 
         @Autowired
        SuperHerosRepository superHerosRepository;
-//Créer un nouvel heros dans la base de données.
+//Créer un nouveau heros dans la base de données.
     public void save(SuperHeros heros)
     {
         superHerosRepository.save(heros);
     }
 
 
-    //recuperer les héros en focntion de l'id de leur incidents(cette methode est reliée à celle du superHerosRepository
-    public List<SuperHeros>  findByIncidentsId(int id){
-    List<SuperHeros> heros= new ArrayList<>();
-    heros = superHerosRepository.findByIncidentsId(id);
-    return heros;
-    }
 }
 
 
