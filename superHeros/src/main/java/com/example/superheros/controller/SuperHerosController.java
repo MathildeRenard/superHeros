@@ -48,6 +48,9 @@ public class SuperHerosController {
 
         return "home";
     }
+    //méthode qui récupére l'id de l'incident signalé
+    public void SendIncidentId(){
 
+    }
 
 }

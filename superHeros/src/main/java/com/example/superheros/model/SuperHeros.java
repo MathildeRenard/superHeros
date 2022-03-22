@@ -74,4 +74,5 @@ public class SuperHeros {
     public List<Incident> getIncidents() {
         return incidents;
     }
+
 }

@@ -14,104 +14,131 @@
 </head>
 <body>
 
-    <div>
-        <label>
-            numéro de rue :
-        </label>
-        <input id="num" placeholder="ex : 59"/>
-    </div>
-    <label>
-        nom de la rue :
-    </label>
-    <input id="rue" placeholder="ex : rue de Rivoli"/>
-    </div>
-    <label>
-        code postal :
-    </label>
-    <input id="code" placeholder="ex : 75000"/>
-    </div>
-    <label>
-        Ville :
-    </label>
-    <input id="ville" placeholder="ex : Paris"/>
-    </div>
 <div>
+    <label>
+        numéro de rue :
+    </label>
+    <input id="num" placeholder="ex : 59"/>
+</div>
+<label>
+    nom de la rue :
+</label>
+<input id="rue" placeholder="ex : rue de Rivoli"/>
+</div>
+<label>
+    code postal :
+</label>
+<input id="code" placeholder="ex : 75000"/>
+</div>
+<label>
+    Ville :
+</label>
+<input id="ville" placeholder="ex : Paris"/>
+</div>
+<div>
+    <h1>Liste des incidents</h1>
+    <select name="incident">
+        <div th:each="incident : ${incidents}">
+
+            <option th:value="${incident.getId()}" th:text="${incident.getName()}"></option>
+
+    </select>
+</div>
+
     <div>
         <button onclick="showHeros()" type="submit">Valider</button>
 
-</div>
-<!--    affichage de la carte-->
-    <div id="map">
+        <!--    affichage de la carte-->
+        <div id="map">
+
+        </div>
+        <script th:inline="javascript">
+            function showHeros(){
+                //Recuperer les valeurs saisies par l'utilisateur
+                var num = document.getElementById("num").value;
+                //enlever les espace si l'utilisateur en a mis, en fin et debut de saisie
+                num = num.trim();
+                var rue = document.getElementById("rue").value;
+                rue = rue.trim();
+                //Remplacer les espaces par des %20 pour la rue
+                rue = rue.replace(' ', '%20');
+                console.log('rue : '+ rue);
+                var ville = document.getElementById("ville").value;
+                ville = ville.trim();
+                var code = document.getElementById("code").value;
+                code = code.trim();
+
+                // Reccuperer les informations de l'api
+                fetch('https://nominatim.openstreetmap.org/search?q='+num+'%20'+rue+'%20'+code+'%20'+ville+'&format=json')
+                    .then(result => result.json())
+                    .then((output) => {
+                        var lat = output[0].lat;
+                        var lon = output[0].lon;
+                        //initialiser la map avec les positions
+                        initMap(lon,lat,ville);
+                    }).catch(err => console.error(err));
+
+                //initialisation de la map avec les positions de ville données par l'utilisateur
+
+                var macarte = null;
+                // Fonction d'initialisation de la carte
+                function initMap(lon,lat,ville) {
+                    // Créer l'objet "macarte" et l'insèrer dans l'élément HTML qui a l'ID "map"
+                    macarte = L.map('map').setView([lat, lon], 8);
+                    //Ajouter un marqueur sur la ville
+                    var markerVille = L.marker([lat, lon]).addTo(macarte);
+                    markerVille.bindPopup("<h1>"+ville+"</h1>");
+
+                    //mettre un cercle entourant les 50km(50000 metres) de distance autour de l'adresse données
+                    let cercle = L.circle([lat, lon], {
+                        color: 'green',
+                        fillColor: 'green',
+                        fillOpacity: 0.5,
+                        radius: 50000
+                    }).addTo(macarte);
+                    // Leaflet ne récupère pas les cartes (tiles) sur un serveur par défaut. Nous devons lui préciser où nous souhaitons les récupérer. Ici, openstreetmap.fr
+                    L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+                        // Il est toujours bien de laisser le lien vers la source des données
+                        attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM France</a>',
+                        minZoom: 1,
+                        maxZoom: 20
+                    }).addTo(macarte);
+
+                    //Ajouter les heros à la carte
+                    var heros= [[${heros}]];
+
+                    var i =0;
+                     var e = 0;
+                     while (i<heros.length)
+
+                     {
+                         var herospos = heros[i].location;
+                         var positions = herospos.split(",");
+                         var markerHeros = L.marker([positions[0], positions[1]]).addTo(macarte);
+                         markerHeros.bindPopup("<h1>"+heros[i].name+"</h1><p>"+heros[i].phone+"</p>");
+                         i=i+1;
+                         /*var incidents = [[${heros.incidents}]];
+                         while (e<heros.length){
+                             console.log(incidents[e]);
+                             e=e+1
+                         };*/
+                     };
+
+
+
+                };
+                window.onload = function(){
+                    // Fonction d'initialisation
+                    initMap();
+                };
+
+            };
+        </script>
+        <!-- Fichiers Javascript -->
+        <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw==" crossorigin=""></script>
+
 
     </div>
-    <script>
-    function showHeros(){
-    //Recuperer les valeurs saisies par l'utilisateur
-   var num = document.getElementById("num").value;
-   //enlever les espace si l'utilisateur en a mis, en fin et debut de saisie
-    num = num.trim();
-    var rue = document.getElementById("rue").value;
-    rue = rue.trim();
-    //Remplacer les espaces par des %20 pour la rue
-    rue = rue.replace(' ', '%20');
-    console.log('rue : '+ rue);
-    var ville = document.getElementById("ville").value;
-    ville = ville.trim();
-    var code = document.getElementById("code").value;
-    code = code.trim();
 
-        // Reccuperer les informations de l'api
-        fetch('https://nominatim.openstreetmap.org/search?q='+num+'%20'+rue+'%20'+code+'%20'+ville+'&format=json')
-            .then(result => result.json())
-            .then((output) => {
-                var lat = output[0].lat;
-                var lon = output[0].lon;
-                //initialiser la map avec les positions
-               initMap(lon,lat,ville);
-            }).catch(err => console.error(err));
-
-        //initialisation de la map avec les positions de ville données par l'utilisateur
-
-        var macarte = null;
-        // Fonction d'initialisation de la carte
-        function initMap(lon,lat,ville) {
-            // Créer l'objet "macarte" et l'insèrer dans l'élément HTML qui a l'ID "map"
-            macarte = L.map('map').setView([lat, lon], 8);
-            //Ajouter un marqueur sur la ville
-            var markerVille = L.marker([lat, lon]).addTo(macarte);
-
-            //mettre un cercle entourant les 50km(50000 metres) de distance autour de l'adresse données
-            markerVille.bindPopup(ville);
-
-            let cercle = L.circle([lat, lon], {
-                color: 'green',
-                fillColor: 'green',
-                fillOpacity: 0.5,
-                radius: 50000
-            }).addTo(macarte);
-            // Leaflet ne récupère pas les cartes (tiles) sur un serveur par défaut. Nous devons lui préciser où nous souhaitons les récupérer. Ici, openstreetmap.fr
-            L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
-                // Il est toujours bien de laisser le lien vers la source des données
-                attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM France</a>',
-                minZoom: 1,
-                maxZoom: 20
-            }).addTo(macarte);
-        }
-        window.onload = function(){
-            // Fonction d'initialisation qui s'exécute lorsque le DOM est chargé
-            initMap();
-        };
-
-    }
-    </script>
-    <!-- Fichiers Javascript -->
-    <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw==" crossorigin=""></script>
-
-    <h1>Liste des incidents</h1>
-    <div th:each="incident : ${incidents}">
-        <span th:text="${incident.getName()}"></span>
-
-    </div>
-</div>
 </body>
 </html>

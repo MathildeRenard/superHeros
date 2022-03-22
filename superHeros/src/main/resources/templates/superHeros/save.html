@@ -7,24 +7,24 @@
 <body>
 <div>
     <h1>Ajouter un heros</h1>
-    <form method="post" th:action="@{/SuperHeros/submitForm}" th:object="${heros}">
+    <form method="post" th:action="@{/SuperHeros/submitForm}" >
         <div>
             <label>
                 name :
             </label>
-            <input th:field="*{name}"></input>
+            <input th:field="*{heros.name}"></input>
         </div>
         <div>
             <label>
                 phone :
             </label>
-            <input th:field="*{phone}"></input>
+            <input th:field="*{heros.phone}"></input>
         </div>
         <div>
             <label>
                 location :
             </label>
-            <input th:field="*{location}"></input>
+            <input th:field="*{heros.location}"></input>
         </div>
 
         <p>
@@ -34,7 +34,7 @@
                        th:each="incident : ${incidents}"
                        th:text="${incident.name}"
                        th:value="${incident.id}"
-                     th:field="*{incidents}"
+                     th:field="*{heros.incidents}"
                 />
             </label>
         </p>
