@@ -50,6 +50,7 @@
 
     function CheckBox()
     {
+        //code qui gere le nombre d'incidents pouvant être séléctionnés
         var input = document.getElementsByTagName("input");
         var i, nombreInput,compteur;
 
@@ -70,8 +71,22 @@
         }
 
         if (compteur == 4){
-        alert("Vous ne pouvez cocher que trois incidents maximun");}else if(compteur == 0 ){alert("Vous devez cocher au moins un incident");}else{document.getElementById('form').submit();alert("Le héros a bien été ajouté");}
+        alert("Vous ne pouvez cocher que trois incidents maximun");}else if(compteur == 0 ){
+            alert("Vous devez cocher au moins un incident");}else{
+            var saisie = document.getElementsByClassName('input');
+            var valider = true;
+            for (e=0; e<saisie.length; e++)
+            {
+                if (saisie[e].value==""){
+
+
+                   valider = false;
+                }
+            } if (valider==true){
+            document.getElementById('form').submit();alert("Le héros a bien été ajouté");}else{alert("Vous devez remplir tous les champs");}}
     }
+
+
 </script>
 </body>
 </html>
