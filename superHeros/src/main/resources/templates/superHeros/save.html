@@ -15,19 +15,19 @@
             <label>
                 name :
             </label>
-            <input th:field="*{heros.name}"></input>
+            <input th:field="*{heros.name}" required="true">
         </div>
         <div>
             <label>
                 phone :
             </label>
-            <input th:field="*{heros.phone}"></input>
+            <input th:field="*{heros.phone}" required="true">
         </div>
         <div>
             <label>
                 location :
             </label>
-            <input th:field="*{heros.location}"></input>
+            <input th:field="*{heros.location}" required="true">
         </div>
 
         <p>
@@ -51,27 +51,26 @@
     function CheckBox()
     {
         var input = document.getElementsByTagName("input");
-        var i, n;
-        var c, msg;
+        var i, nombreInput,compteur;
 
-        n = input.length;
-        c = 0;
+        nombreInput = input.length;
+        compteur = 0;
 
-        msg = "( -"
-        for (i=0; i<n; i++)
+
+        for (i=0; i<nombreInput; i++)
         {
             if (input[i].type.toLowerCase()=="checkbox")
             {
                 if (input[i].checked)
                 {
-                    c++;
+                    compteur++;
 
                 }
             }
         }
-console.log(c);
-        if (c == 4){
-        alert("Vous ne pouvez cocher que trois incidents maximun");}else if(c == 0 ){alert("Vous devez cocher au moins un incident");}else{document.getElementById('form').submit();}
+
+        if (compteur == 4){
+        alert("Vous ne pouvez cocher que trois incidents maximun");}else if(compteur == 0 ){alert("Vous devez cocher au moins un incident");}else{document.getElementById('form').submit();alert("Le héros a bien été ajouté");}
     }
 </script>
 </body>
