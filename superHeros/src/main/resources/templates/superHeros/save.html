@@ -73,13 +73,13 @@
         if (compteur == 4){
         alert("Vous ne pouvez cocher que trois incidents maximun");}else if(compteur == 0 ){
             alert("Vous devez cocher au moins un incident");}else{
+            //verifier si les champs ne sont pas vides
             var saisie = document.getElementsByClassName('input');
             var valider = true;
             for (e=0; e<saisie.length; e++)
             {
                 if (saisie[e].value==""){
-
-
+                    //si l'un est vide, on met valider sur false
                    valider = false;
                 }
             } if (valider==true){
