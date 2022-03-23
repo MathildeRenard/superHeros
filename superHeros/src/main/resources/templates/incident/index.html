@@ -9,6 +9,7 @@
     <!-- cdn bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
     <style>
         #map{ /* la carte DOIT avoir une hauteur sinon elle n'apparaît pas */
             height:400px;
@@ -18,43 +19,63 @@
 </head>
 <body>
 
-<div>
+<div id="form">
     <label>
-        numéro de rue :
+    <p class="label-txt">Numéro de rue</p>
+    <input id="num" placeholder="ex : 59" class="input"/>
+    <div class="line-box">
+        <div class="line"></div>
+    </div>
     </label>
-    <input id="num" placeholder="ex : 59"/>
-</div>
+
 <label>
-    nom de la rue :
+    <p class="label-txt">Nom de la rue</p>
+
+<input id="rue" placeholder="ex : rue de Rivoli" class="input"/>
+    <div class="line-box">
+        <div class="line"></div>
+    </div>
 </label>
-<input id="rue" placeholder="ex : rue de Rivoli"/>
-</div>
 <label>
-    code postal :
+    <p class="label-txt">Code postal </p>
+
+<input id="code" placeholder="ex : 75000" class="input"/>
+    <div class="line-box">
+        <div class="line"></div>
+    </div>
 </label>
-<input id="code" placeholder="ex : 75000"/>
-</div>
+
 <label>
-    Ville :
+    <p class="label-txt">Ville </p>
+
+<input id="ville" placeholder="ex : Paris" class="input"/>
+    <div class="line-box">
+        <div class="line"></div>
+    </div>
 </label>
-<input id="ville" placeholder="ex : Paris"/>
-</div>
 <div>
-    <h1>Liste des incidents</h1>
+    <p class="label-txt">Type d'incident</p>
     <select name="incident">
         <div th:each="incident : ${incidents}">
 
             <option th:value="${incident.getId()}" th:text="${incident.getName()}"></option>
-
+        </div>
     </select>
+
 </div>
 
-    <div>
-        <button onclick="showHeros()" type="submit">Valider</button>
-        <!--    affichage de la carte-->
-        <div id="map">
 
-        </div>
+<div>
+        <button id="valider" onclick="showHeros()" type="submit">Valider</button>
+    </div>
+
+</div>
+</div>
+
+<!--    affichage de la carte-->
+<div id="map">
+
+</div>
         <script th:inline="javascript">
 
             function showHeros(){
