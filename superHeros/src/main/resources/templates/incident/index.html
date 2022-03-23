@@ -130,10 +130,23 @@
                     }).addTo(carte);
 
                 };
-                window.onload = function(){
 
-                    initMap();
-                };
+
+                //verifier si les champs ne sont pas vides
+                var saisie = document.getElementsByClassName('input');
+                var valider = true;
+                for (e=0; e<saisie.length; e++)
+                {
+                    if (saisie[e].value==""){
+                        //si l'un est vide, on met valider sur false
+                        valider = false;
+                    }
+                } if (valider==true){
+                    window.onload = function(){
+
+                        initMap();
+                    };
+            }else{alert("Vous devez remplir tous les champs");}
 
 
             };
